@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="SA3_Uc09">
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <property name="context-root" value="SA3_Uc09"/>
+        <property name="java-output-path" value="/SA3_Uc09/build/classes"/>
+    </wb-module>
+</project-modules>

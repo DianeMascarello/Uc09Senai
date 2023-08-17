@@ -1,0 +1,10 @@
+INDEX VERSION 1.4+C:\Users\diane\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+971778378.index
+1038855274.index
+303102553.index
+777977999.index
+777977999.index
+1628628295.index
+1670429190.index
+11871517.index
+2054551066.index

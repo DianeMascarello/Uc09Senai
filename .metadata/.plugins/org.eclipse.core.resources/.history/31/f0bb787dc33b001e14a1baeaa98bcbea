@@ -1,0 +1,47 @@
+package controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import model.Usuario;
+
+import java.io.IOException;
+
+import com.mysql.cj.xdevapi.Expression;
+
+@WebServlet("/ServletUsuario")
+public class ServletUsuario extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    
+    public ServletUsuario() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			String msg = "Usuário cadastrado com sucesso!";
+			String nome = request.getParameter("nome");
+			String email = request.getParameter("email");
+			String senha = request.getParameter("senha");
+			String confirmarsenha = request.getParameter("confirmarsenha");
+			
+			Usuario user01 = new Usuario();
+			
+			user01.setUsuario(nome);
+			user01.setSenha(senha);
+			user01.setconfirmarSenha(confirmarsenha);
+			user01.setEmail(email);
+			
+		} catch (Exception e) {
+		}
+	}
+
+}

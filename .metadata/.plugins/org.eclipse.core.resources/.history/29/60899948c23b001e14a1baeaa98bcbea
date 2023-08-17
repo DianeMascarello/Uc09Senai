@@ -1,0 +1,32 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import conexao.ConexaoBanco;
+import model.Usuario;
+
+public class UsuarioRepository {
+
+		private Connection conn;
+
+		public UsuarioRepository() {
+			conn = ConexaoBanco.getConnection();
+			
+		}
+
+		public Usuario inserirusuario(Usuario objeto) throws Exception{
+			String sql = "INSERT INTO usuario(nome_Usuario, email_Usuario, login, senha) VALUES (?, ?, ?, ?);";
+			
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, objeto.getconfirmarSenha());
+			stmt.setString(2, objeto.getEmail());
+			stmt.setString(3, objeto.getEmail());
+			stmt.setString(4, objeto.getSenha());
+			
+			stmt.execute();
+			
+			conn.commit();
+			
+			}
+}

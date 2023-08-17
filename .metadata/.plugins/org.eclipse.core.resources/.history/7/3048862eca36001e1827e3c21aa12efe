@@ -1,0 +1,40 @@
+package controller;
+
+import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/ServletInicial")
+public class ServletLogin extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public ServletLogin() {
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
+
+		if (email != null && !email.isEmpty() && senha != null && !senha.isEmpty()) {
+			
+
+		} else {
+			RequestDispatcher redireciona = request.getRequestDispatcher("/login.jsp");
+			request.setAttribute("mensagem", "Usuário ou Senha incorretos!");
+			redireciona.forward(request, response);
+		}
+
+	}
+
+}
