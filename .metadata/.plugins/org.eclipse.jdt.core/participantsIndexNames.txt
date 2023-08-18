@@ -1,4 +1,6 @@
 INDEX VERSION 1.134
+C:\Users\diane\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\373000509.index
+\SA3Uc09\src\main\java
 C:\Users\diane\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1619323375.index
 \Projeto01\src\main\java
 C:\Users\diane\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4135636678.index
@@ -23,3 +25,5 @@ C:\Users\diane\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jsp
 \ProjetoSA3\src\main\java
 C:\Users\diane\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\839064332.index
 \uc9_20221\src\main\java
+C:\Users\diane\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3270041713.index
+\SA3Uc09\src\main\java

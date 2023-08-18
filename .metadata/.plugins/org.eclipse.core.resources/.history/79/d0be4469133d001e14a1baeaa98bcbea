@@ -1,0 +1,64 @@
+package controller;
+
+import java.io.IOException;
+
+import dao.UsuarioRepository;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import model.Usuario;
+
+//@WebServlet("/ServletUsuario")
+public class ServletUsuario extends HttpServlet {
+		private static final long serialVersionUID = 1L;
+	
+		private UsuarioRepository userRepository = new UsuarioRepository();
+
+	public ServletUsuario() {
+
+	}
+
+		protected void doGet(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+	}
+
+		protected void doPost(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+			try {
+				String msg = "Usuário cadastrado com sucesso!";
+				String id = request.getParameter("id");
+				String nome = request.getParameter("nome");
+				String email = request.getParameter("email");
+				String senha = request.getParameter("senha");
+	
+				Usuario user01 = new Usuario();
+				user01.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
+				user01.setUsuario(nome);
+				user01.setSenha(senha);
+				user01.setEmail(email);
+	
+				//if (userRepository.vericaUsuario(user01.getEmail()) && user01.getId() == null) {
+					msg = "Usuário já cadastrado, informe outro usuário!!!";
+				//} else {
+					if (user01.ehNovo()) {
+						msg = "Gravado com Sucesso!!";
+					} else {
+						msg = "Atualizado com Sucesso!!";
+					}
+					user01 = userRepository.insereUsuario(user01);
+				//}
+				request.setAttribute("mensagem", msg);
+				request.setAttribute("user01", user01);
+				request.getRequestDispatcher("painel/cadastro.jsp").forward(request, response);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				RequestDispatcher redireciona = request.getRequestDispatcher("painel/error.jsp");
+				request.setAttribute("mensagem", e.getMessage());
+				redireciona.forward(request, response);
+			}
+		}
+	
+	}

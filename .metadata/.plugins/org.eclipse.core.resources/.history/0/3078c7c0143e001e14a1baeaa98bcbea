@@ -1,0 +1,41 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import conexao.ConexaoBanco;
+import model.Pedido;
+
+public class PedidoRepository {
+	private Connection conn;
+	
+	public PedidoRepository() {
+		conn = ConexaoBanco.getConnection();
+	}
+
+	public List<Pedido> consultarPedidoLista(int pedido) throws Exception {
+	    
+		List<Pedido> listaPedidos = new ArrayList<>();
+
+	    String sql = "SELECT * FROM pedido";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setInt(pedido, pedido);
+	    ResultSet rst = stmt.executeQuery();
+	    
+	    if (rst.next()) {
+	    //	    while (rst.next()) {
+	        Pedido relatorio = new Pedido();
+	        relatorio.setId(rst.getInt("id"));
+	        relatorio.setData(rst.getDate("data"));
+	        relatorio.setTotal(rst.getDouble("total"));
+	        relatorio.setTransportador("transportador");
+	        
+	        listaPedidos.add(relatorio);
+	    }
+
+	    return listaPedidos;
+	}	
+}

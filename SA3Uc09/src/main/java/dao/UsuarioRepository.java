@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+
 import conexao.ConexaoBanco;
 import model.Usuario;
 
@@ -15,43 +16,61 @@ public class UsuarioRepository {
 	}
 	
 	public Usuario insereUsuario(Usuario objeto) throws Exception{
-		if (objeto.ehNovo()) {
-		String sql = "INSERT INTO usuario(nome_Usuario, email_Usuario, login, senha) VALUES (?, ?, ?, ?);";
-
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, objeto.getUsuario());
-		stmt.setString(2, objeto.getEmail());
-		stmt.setString(3, objeto.getEmail());
+		
+		
+		String insertsql = "INSERT INTO usuario(nome_Usuario, email_Usuario, login, senha) VALUES (?, ?, ?, ?);";
+		PreparedStatement stmt = conn.prepareStatement(insertsql);
+		stmt.setString(1, objeto.getNome());
+		stmt.setString(2, objeto.getUsuario());
+		stmt.setString(3, objeto.getUsuario());
 		stmt.setString(4, objeto.getSenha());
 
 		stmt.execute();
 
 		conn.commit();	
-		}else {
-			String sql = "UPDATE usuario SET nome_Usuario = ?, email_Usuario = ?, login = ?, senha = ? WHERE email_Usuario = ?";			
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, objeto.getUsuario());
-			stmt.setString(2, objeto.getEmail());
-			stmt.setString(3, objeto.getEmail());
-			stmt.setString(4, objeto.getSenha());
-			stmt.setString(5, objeto.getEmail());
-			
-			stmt.executeUpdate();
-			
-			conn.commit();
-		}
+
 		return this.consultarUsuario(objeto.getUsuario());
+		
 	}
+	public Usuario editarUsuario(Usuario objeto) throws Exception{	
+		
+				String updatesql = "UPDATE usuario SET nome_Usuario = ?, email_Usuario = ?, login = ?, senha = ? WHERE email_Usuario = ?";			
+				PreparedStatement stmt = conn.prepareStatement(updatesql);
+				stmt.setString(1, objeto.getNome());
+				stmt.setString(2, objeto.getUsuario());
+				stmt.setString(3, objeto.getUsuario());
+				stmt.setString(4, objeto.getSenha());
+				stmt.setString(5, objeto.getUsuario());
+				
+				stmt.executeUpdate();
+				
+				conn.commit();
+			
+			return this.consultarUsuario(objeto.getUsuario());
+		}
+		
+	public Usuario consultarUsuario(String objeto) throws Exception {
+		    Usuario user01 = new Usuario();
 	
-	public Usuario consultarUsuario(String usuario) throws Exception{
-		Usuario user01 = new Usuario();
-		
-		
-		return user01;
-	}
+		    String sql = "SELECT * FROM usuario WHERE login = ?";
+	
+		    PreparedStatement stmt = conn.prepareStatement(sql);
+		    stmt.setString(1, objeto);
+	
+		    ResultSet rst = stmt.executeQuery();
+	
+		    while (rst.next()) {
+		        user01.setNome(rst.getString("nome"));
+		        user01.setUsuario(rst.getString("email_Usuario"));
+		        user01.setUsuario(rst.getString("login"));
+		        user01.setSenha(rst.getString("senha"));
+		    }
+	
+		    return user01;
+		}
 	
 	public boolean vericaUsuario(String usuario) throws Exception{
-		String sql = "SELECT COUNT(1) > 0 AS EXISTE FROM usuario where login = '"+usuario+"';";
+		String sql = "SELECT COUNT(1) > 0 AS EXISTE FROM usuario where login = ? ";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 	    stmt.setString(1, usuario);
@@ -61,4 +80,15 @@ public class UsuarioRepository {
 		res.next();
 		return res.getBoolean("existe");
 	}
+	
+	public void deletarUsuario(String userEmail) throws Exception{
+		String sql = "DELETE FROM usuario where login = ?;";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, String.valueOf(userEmail));
+		stmt.executeUpdate();
+		conn.commit();
+		
+	}
+	
+	
 }

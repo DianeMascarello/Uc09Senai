@@ -23,10 +23,7 @@ public class LoginRepository {
 		ResultSet rst = stmt.executeQuery();
 		if (rst.next()) {
 			return true;
-			// usuario e senha batem com o que está no banco, pode efetuar o login do
-			// usuário
 		}
 		return false;
-		// usuario e senha incorretos, não pode efetuar o login do usuário
 	}
 }

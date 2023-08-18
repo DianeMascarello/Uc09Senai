@@ -21,12 +21,11 @@ public class ServletLogin extends HttpServlet {
 	public ServletLogin() {
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String acao = request.getParameter("acao");
 
 		if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("logout")) {
-			request.getSession().invalidate(); // encerro a sessão
+			request.getSession().invalidate(); 
 			RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
 			redirecionar.forward(request, response);
 		} else {
@@ -37,7 +36,6 @@ public class ServletLogin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		String email = request.getParameter("email");
 		String usuario = request.getParameter("usuario");
 		String senha = request.getParameter("senha");
 		String url = request.getParameter("url");
@@ -56,7 +54,6 @@ public class ServletLogin extends HttpServlet {
 					RequestDispatcher redirecionar = request.getRequestDispatcher(url);
 					redirecionar.forward(request, response);
 				} else {
-					// instaciei um objeto
 					RequestDispatcher redireciona = request.getRequestDispatcher("/login.jsp");
 					request.setAttribute("mensagem", "Usuário ou Senha incorretos!");
 					redireciona.forward(request, response);
@@ -64,7 +61,7 @@ public class ServletLogin extends HttpServlet {
 
 			} else {
 				RequestDispatcher redireciona = request.getRequestDispatcher("/login.jsp");
-				request.setAttribute("mensagem", "Usuário ou Senha incorretos!");
+				request.setAttribute("mensagem", "Insira seu Usuário e Senha!");
 				redireciona.forward(request, response);
 			}
 		} catch (Exception e) {

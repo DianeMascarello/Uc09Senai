@@ -5,41 +5,26 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
-	private String email;
+	private String nome;
 	private String usuario;
 	private String senha;
-	private String confirmarsenha;
 	
 	public boolean ehNovo() {
-		if (this.email == null) {
+		if (this.usuario == null) {
 			return true;
-		}else if (this.email != null) {
+		}else if (this.usuario != null) {
 			return false;
 		}
-		return email == null;
+		return usuario == null;
 	}
 	
-	
-	public Long getId() {
-		return id;
+	public String getNome() {
+		return nome;
 	}
 
-
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
-
-
-
-	public String getEmail() {
-		return email;
-	}
-	
-		public void setEmail(String email) {
-			this.email = email;
-		}
 
 	public String getUsuario() {
 		return usuario;
@@ -55,14 +40,6 @@ public class Usuario implements Serializable {
 	
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-	
-	public String getconfirmarSenha() {
-		return confirmarsenha;
-	}
-	
-	public void setconfirmarSenha(String confirmarsenha) {
-		this.confirmarsenha = confirmarsenha;
 	}
 
 }

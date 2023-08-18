@@ -1,0 +1,49 @@
+package controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import dao.UsuarioRepository;
+
+
+public class ServletPedido extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	private PedidoRepository pedRepository = new PedidoRepository();
+	
+    public ServletPedido() {
+        super();
+        
+    }
+
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+		    String nomeUsuario = request.getParameter("nomeUsuario"); // Obtém o nome de usuário a ser pesquisado
+		    List<Pedido> listaPedidos = userRepository.consultarPedidoLista(nomeUsuario);
+		    
+		    // Coloque a listaPedidos no atributo de request
+		    request.setAttribute("listaPedidos", listaPedidos);
+		    
+		    // Encaminhe para o JSP de relatórios
+		    request.getRequestDispatcher("seu_jsp_de_relatorios.jsp").forward(request, response);
+		} catch (Exception e) {
+		    // Trate exceções
+		    e.printStackTrace();
+		    RequestDispatcher redireciona = request.getRequestDispatcher("painel/error.jsp");
+		    request.setAttribute("mensagem", e.getMessage());
+		    redireciona.forward(request, response);
+		}
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		doGet(request, response);
+	}
+
+}
