@@ -1,0 +1,80 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import java.util.List;
+
+import conexao.ConexaoBanco;
+import model.Pedido;
+
+public class PedidoRepository {
+	private Connection conn;
+
+	public PedidoRepository() {
+		conn = ConexaoBanco.getConnection();
+	}
+
+//	public List<Pedido> consultarPedidoLista() throws Exception{
+//		List<Pedido> listaPedidos = new ArrayList<>();
+//		
+//		try {
+//			String sql = "SELECT * FROM pedido";
+//			PreparedStatement stmt = conn.prepareStatement(sql);
+//		    ResultSet rst = stmt.executeQuery();
+//		    
+//		    if (rst.next()) {
+//		    //	    while (rst.next()) {
+//				Pedido relatorio = new Pedido();
+//
+//		        relatorio.setId(rst.getInt("id_Pedido"));
+//		        relatorio.setData(rst.getDate("data_Pedido"));
+//		        relatorio.setTotal(rst.getDouble("total_Pedido"));
+//		        relatorio.setTransportador("transportador");
+//		        
+//		        listaPedidos.add(relatorio);
+//		        
+//		       
+//		    }else {
+//		    	System.out.print("Nenhum pedido encontrado!");
+
+	public List<Pedido> getPedidos() {
+
+		String sql = "SELECT * FROM contatos";
+
+		List<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+
+		try {
+			conn = ConexaoBanco.getConnection();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+
+			rset = pstm.executeQuery();
+
+			while (rset.next()) {
+
+				Pedido pedido = new Pedido();
+
+				pedido.setId(rset.getInt("id_Pedido"));
+				pedido.setData(rset.getDate("data_Pedido"));
+				pedido.setTotal(rset.getDouble("total_Pedido"));
+				pedido.setTransportador(rset.getString("transportador"));
+
+				listaPedidos.add(pedido);
+
+			}
+
+//		    }
+		} catch (SQLException e) {
+			return null;
+		}
+		return null;
+	}
+}

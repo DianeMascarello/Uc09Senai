@@ -18,32 +18,84 @@ public class PedidoRepository {
 		conn = ConexaoBanco.getConnection();
 	}
 
-	public List<Pedido> consultarPedidoLista() throws Exception{
-		List<Pedido> listaPedidos = new ArrayList<>();
-		
-		try {
-			String sql = "SELECT * FROM pedido";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-		    ResultSet rst = stmt.executeQuery();
-		    
-		    if (rst.next()) {
-		    //	    while (rst.next()) {
-				Pedido relatorio = new Pedido();
 
-		        relatorio.setId(rst.getInt("id_Pedido"));
-		        relatorio.setData(rst.getDate("data_Pedido"));
-		        relatorio.setTotal(rst.getDouble("total_Pedido"));
-		        relatorio.setTransportador("transportador");
-		        
-		        listaPedidos.add(relatorio);
-		        
-		       
-		    }else {
-		    	System.out.print("Nenhum pedido encontrado!");
-		    }
-		    	}catch (SQLException e) {
-		    		return null;
-		    	}
-		return null;
+	public List<Pedido> consultarPedidoLista(String id) {
+
+		String sql = "SELECT * FROM contatos";
+
+		List<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+
+		try {
+			conn = ConexaoBanco.getConnection();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+
+			rset = pstm.executeQuery();
+
+			while (rset.next()) {
+
+				Pedido pedido = new Pedido();
+
+				pedido.setId(rset.getInt("id_Pedido"));
+				pedido.setData(rset.getDate("data_Pedido"));
+				pedido.setTotal(rset.getDouble("total_Pedido"));
+				pedido.setTransportador(rset.getString("transportador"));
+
+				listaPedidos.add(pedido);
+				
+			}
+
+		} catch (SQLException e) {
+		}finally {
+			try {
+				if(rset!=null) {
+					rset.close();
+				}
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	
+		return listaPedidos;
+}
+
+	public void deletarPedido(String idPedido) throws Exception{
+		String sql = "DELETE FROM pedido where id_Pedido = ?;";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, String.valueOf(idPedido));
+		stmt.executeUpdate();
+		conn.commit();
+		
 	}
+	public Pedido editarPedido(Pedido objeto) throws Exception{	
+		
+		String updatesql = "UPDATE pedido SET id_Pedido = ?, data_Pedido = ?, total_Pedido = ?, transportador = ? WHERE id_Pedido = ?";			
+		PreparedStatement stmt = conn.prepareStatement(updatesql);
+		stmt.setInt(1, objeto.getId());
+		stmt.setDate(2, objeto.getData());
+		stmt.setDouble(3, objeto.getTotal());
+		stmt.setString(4, objeto.getTransportador());
+		stmt.setInt(5, objeto.getId());
+		
+		stmt.executeUpdate();
+		
+		conn.commit();
+	
+	return (Pedido) this.consultarPedidoLista(objeto.getPedido());
+}
+
+
+	
 }

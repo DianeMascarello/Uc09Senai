@@ -1,0 +1,102 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import java.util.List;
+
+import conexao.ConexaoBanco;
+import model.Pedido;
+import model.Usuario;
+
+public class PedidoRepository {
+	private Connection conn;
+
+	public PedidoRepository() {
+		conn = ConexaoBanco.getConnection();
+	}
+
+
+	public List<Pedido> consultarPedidoLista(String id) {
+
+		String sql = "SELECT * FROM contatos";
+
+		List<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+
+		try {
+			conn = ConexaoBanco.getConnection();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+
+			rset = pstm.executeQuery();
+
+			while (rset.next()) {
+
+				Pedido pedido = new Pedido();
+
+				pedido.setId(rset.getInt("id_Pedido"));
+				pedido.setData(rset.getDate("data_Pedido"));
+				pedido.setTotal(rset.getDouble("total_Pedido"));
+				pedido.setTransportador(rset.getString("transportador"));
+
+				listaPedidos.add(pedido);
+				
+			}
+
+		} catch (SQLException e) {
+		}finally {
+			try {
+				if(rset!=null) {
+					rset.close();
+				}
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	
+		return listaPedidos;
+}
+
+	public void deletarUsuario(String idPedido) throws Exception{
+		String sql = "DELETE FROM pedido where id_Pedido = ?;";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, String.valueOf(idPedido));
+		stmt.executeUpdate();
+		conn.commit();
+		
+	}
+	public Pedido editarPedido(Pedido objeto) throws Exception{	
+		
+		String updatesql = "UPDATE pedido SET id_Pedido = ?, data_Pedido = ?, total_Pedido = ?, transportador = ? WHERE id_Pedido = ?";			
+		PreparedStatement stmt = conn.prepareStatement(updatesql);
+		stmt.setInt(1, objeto.getId());
+		stmt.setDate(2, objeto.getData());
+		stmt.setDouble(3, objeto.getTotal());
+		stmt.setString(4, objeto.getTransportador());
+		stmt.setInt(5, objeto.getId());
+		
+		stmt.executeUpdate();
+		
+		conn.commit();
+	
+	return this.consultarPedido(objeto.getPedido());
+}
+
+
+	
+}

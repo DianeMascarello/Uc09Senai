@@ -1,0 +1,74 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import java.util.List;
+
+import conexao.ConexaoBanco;
+import model.Pedido;
+
+public class PedidoRepository {
+	private Connection conn;
+
+	public PedidoRepository() {
+		conn = ConexaoBanco.getConnection();
+	}
+
+
+	public List<Pedido> consultarPedidoLista() {
+
+		String sql = "SELECT * FROM contatos";
+
+		List<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+
+		try {
+			conn = ConexaoBanco.getConnection();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+
+			rset = pstm.executeQuery();
+
+			while (rset.next()) {
+
+				Pedido pedido = new Pedido();
+
+				pedido.setId(rset.getInt("id_Pedido"));
+				pedido.setData(rset.getDate("data_Pedido"));
+				pedido.setTotal(rset.getDouble("total_Pedido"));
+				pedido.setTransportador(rset.getString("transportador"));
+
+				listaPedidos.add(pedido);
+				
+			}
+
+		} catch (SQLException e) {
+		}finally {
+			try {
+				if(rset!=null) {
+					rset.close();
+				}
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	
+		return listaPedidos;
+}
+	
+}
