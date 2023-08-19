@@ -1,0 +1,1 @@
+Pedido pedido = new Pedido(); pedido.setId("id_Pedido"); pedido.setData("data_Pedido"); pedido.setTotal("id_Total"); pedido.setTransportador("transportador"); ServletPedido.save(Pedido); for(Pedido ServletPedido.getPedido) { System.out.println("Pedido: "+Pedido.getId+", "+Pedido.getData+", "+Pedido.getTotal+", "+Pedido.getTransportador()); } }
